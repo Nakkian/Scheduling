@@ -1,6 +1,17 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 import io, pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",   # Vite dev at home
+    ],
+    allow_origin_regex=r"https://.*\.app\.github\.dev",  # any Codespace URL
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app = FastAPI(title="Scheduler API")
 
 @app.get("/health")
