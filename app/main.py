@@ -45,5 +45,5 @@ async def import_excel(file: UploadFile = File(...)):
     cols = {str(c).strip().lower() for c in df.columns}
     missing = REQUIRED - cols
     if missing:
-        raise HTTPException(status_code = 422, details = {"missing_columns": sorted(missing)})
+        raise HTTPException(status_code = 422, detail = {"missing_columns": sorted(missing)})
     return {"rows": len(df), "columns": list(df.columns)}
