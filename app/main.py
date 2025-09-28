@@ -27,11 +27,24 @@ def sum_example(a: int, b: int):
     s = pd.Series([a, b]).sum()
     return {"sum": int(s)}
 
+REQUIRED = {"shift Start Date","shift End Date","employee ID","employee full name","primary job"}
+
 @app.post("/import/excel")
 async def import_excel(file: UploadFile = File(...)):
     if not file.filename.endswith((".xlsx", ".xls")):
         raise HTTPException(400, "Upload an Excel file")
     content = await file.read()
-    df = pd.read_excel(io.BytesIO(content))
+    #this will be the file guard size limit 5MB
+    #1024 bytes == 1 KB , then 1024 KB == 1MB then 5MB so == 5 MB * 1024 KB * 1024 B
+    if len(content) > 5 * 1024 * 1024:
+        raise HTTPException(413, "File too large")
+    try:
+        df = pd.read_excel(io.BytesIO(content))
+    except Exception as e:
+        raise HTTPException(422, f"Read error: {e}")
+    cols = {str(c).strip().lower() for c in df.columns}
+    missing = REQUIRED - cols
+    if missing:
+        raise HTTPException(status_code = 422, details = {"missing_columns": sorted(missing)})
     # TODO: validate schema (employees, shifts, etc.)
     return {"rows": len(df), "columns": list(df.columns)}
