@@ -46,5 +46,4 @@ async def import_excel(file: UploadFile = File(...)):
     missing = REQUIRED - cols
     if missing:
         raise HTTPException(status_code = 422, details = {"missing_columns": sorted(missing)})
-    # TODO: validate schema (employees, shifts, etc.)
     return {"rows": len(df), "columns": list(df.columns)}
