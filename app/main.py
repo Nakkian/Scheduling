@@ -27,7 +27,7 @@ def sum_example(a: int, b: int):
     s = pd.Series([a, b]).sum()
     return {"sum": int(s)}
 
-REQUIRED = {"shift Start Date","shift End Date","employee ID","employee full name","primary job"}
+REQUIRED = {"shift start date","shift end date","employee id","employee full name","primary job"}
 
 @app.post("/import/excel")
 async def import_excel(file: UploadFile = File(...)):
