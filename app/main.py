@@ -1,6 +1,10 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-import io, pandas as pd
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import pandas as pd
+import io
+
+app = FastAPI(title="Scheduler API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,7 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app = FastAPI(title="Scheduler API")
 
 @app.get("/health")
 def health():
