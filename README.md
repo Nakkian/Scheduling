@@ -1,8 +1,8 @@
 # Scheduling API (FastAPI)
+# Quick Commands 
 Files and Code pertaining to Scheduling website
-## Local dev (Codespaces)
-```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000
-
-
+cp .env.example .env
+uvicorn app.main:app --host 0.0.0.0 --port 8000  # Path B
