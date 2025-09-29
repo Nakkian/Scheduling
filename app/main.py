@@ -47,3 +47,8 @@ async def import_excel(file: UploadFile = File(...)):
     if missing:
         raise HTTPException(status_code = 422, detail = {"missing_columns": sorted(missing)})
     return {"rows": len(df), "columns": list(df.columns)}
+#todo .POST and employees method
+"""@app.post("/employees")
+#TODO request json - { "name": "Alice Doe", "role": "barista" }
+def employees():
+"""
