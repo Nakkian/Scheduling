@@ -1,3 +1,0 @@
-VITE_API_URL=https://scheduling-b0bf.onrender.com
-const base = import.meta.env.VITE_API_URL;
-const res = await fetch(`${base}/api/health/ping`);
