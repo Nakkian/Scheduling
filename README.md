@@ -1,8 +1,5 @@
-# Scheduling API (FastAPI)
-# Quick Commands 
-Files and Code pertaining to Scheduling website
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env
-uvicorn app.main:app --host 0.0.0.0 --port 8000  # Path B
+uvicorn app.main:app --host 0.0.0.0 --port 8000
