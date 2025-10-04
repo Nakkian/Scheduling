@@ -3,32 +3,37 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-const API = import.meta.env.VITE_API_URL; // read from .env
+function App() {
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
-async function pingApi() {
-  setLoading(true);
-  setError(null);
-  setResult(null);
-  try {
-    const base = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
-    const prefix = (import.meta.env.VITE_API_PREFIX ?? '/api').replace(/\/+$/, '');
-    const url = `${base}${prefix}/health/ping`;
-    console.log('Ping URL:', url);
+  const API = import.meta.env.VITE_API_URL; // shown in UI
 
-    const res = await fetch(url, { method: 'GET' });
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new Error(`HTTP ${res.status} ${res.statusText} — ${text}`);
+  async function pingApi() {
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    try {
+      const base = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+      const prefix = (import.meta.env.VITE_API_PREFIX ?? "/api").replace(/\/+$/, "");
+      const url = `${base}${prefix}/health/ping`;
+      console.log("Ping URL:", url);
+
+      const res = await fetch(url, { method: "GET" });
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`HTTP ${res.status} ${res.statusText} — ${text}`);
+      }
+      const data = await res.json();
+      setResult(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
     }
-    const data = await res.json();
-    setResult(data);
-  } catch (e) {                              
-    const msg = e instanceof Error ? e.message : String(e);
-    setError(msg);
-  } finally {
-    setLoading(false);
   }
-}
 
   return (
     <>
@@ -54,17 +59,13 @@ async function pingApi() {
 
       <div className="card">
         <h2>Frontend ↔ API test</h2>
-        <p>
-          API base: <code>{API}</code>
-        </p>
+        <p>API base: <code>{API}</code></p>
         <button onClick={pingApi} disabled={loading}>
           {loading ? "Pinging..." : "Ping /health"}
         </button>
 
         {result && (
-          <pre style={{ textAlign: "left" }}>
-            {JSON.stringify(result, null, 2)}
-          </pre>
+          <pre style={{ textAlign: "left" }}>{JSON.stringify(result, null, 2)}</pre>
         )}
         {error && <p style={{ color: "crimson" }}>Error: {error}</p>}
       </div>
