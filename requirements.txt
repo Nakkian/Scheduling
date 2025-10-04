@@ -6,3 +6,6 @@ uvicorn[standard]==0.30.6
 python-multipart==0.0.9
 pydantic==2.8.2
 pydantic-settings==2.4.0
+sqlmodel==0.0.21
+sqlalchemy[asyncio]==2.0.36
+aiosqlite==0.20.0
