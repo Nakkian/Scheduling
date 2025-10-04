@@ -1,0 +1,78 @@
+// src/Employees.jsx
+import { useEffect, useState } from "react";
+import { apiUrl } from "./api";
+
+export default function Employees() {
+  const [dept, setDept] = useState("");
+  const [jobCode, setJobCode] = useState("");
+  const [sort, setSort] = useState("name");
+  const [rows, setRows] = useState([]);
+  const [err, setErr] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  async function load() {
+    setLoading(true); setErr(null);
+    try {
+      const qs = new URLSearchParams();
+      if (dept) qs.set("dept", dept);
+      if (jobCode) qs.set("job_code", jobCode);
+      if (sort) qs.set("sort", sort);
+      const res = await fetch(apiUrl(`/employees?${qs.toString()}`));
+      if (!res.ok) throw new Error(await res.text());
+      setRows(await res.json());
+    } catch (e) { setErr(e instanceof Error ? e.message : String(e)); }
+    finally { setLoading(false); }
+  }
+  useEffect(()=>{ load(); }, [dept, jobCode, sort]);
+
+  async function saveSpecificJob(id, value) {
+    const res = await fetch(apiUrl(`/employees/${id}/specific-job`), {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ specific_job: value || null })
+    });
+    if (!res.ok) throw new Error(await res.text());
+  }
+
+  return (
+    <div className="card">
+      <h3>Employees</h3>
+      <div style={{display:"flex", gap:8}}>
+        <select value={dept} onChange={e=>setDept(e.target.value)}>
+          <option value="">All depts</option>
+          <option value="ABOVE">ABOVE</option>
+          <option value="BELOW">BELOW</option>
+        </select>
+        <input placeholder="Filter job_code (e.g. RD2AGT)" value={jobCode} onChange={e=>setJobCode(e.target.value)} />
+        <select value={sort} onChange={e=>setSort(e.target.value)}>
+          <option value="name">Sort: name</option>
+          <option value="job_code">Sort: job_code</option>
+          <option value="id">Sort: id</option>
+        </select>
+      </div>
+
+      {loading ? <p>Loading…</p> : err ? <p style={{color:"crimson"}}>Error: {err}</p> : (
+        <table style={{width:"100%", marginTop:8}}>
+          <thead><tr><th>Id</th><th>Name</th><th>Dept</th><th>Job Code</th><th>Specific Job</th></tr></thead>
+          <tbody>
+            {rows.map(r => (
+              <tr key={r.id}>
+                <td>{r.id}</td>
+                <td>{r.name}</td>
+                <td>{r.dept ?? "-"}</td>
+                <td>{r.job_code}</td>
+                <td>
+                  <input
+                    defaultValue={r.specific_job ?? ""}
+                    onBlur={async (e)=>{ try { await saveSpecificJob(r.id, e.target.value.trim()); } catch (err) { alert(String(err)); } }}
+                    placeholder="Set specific job…"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
