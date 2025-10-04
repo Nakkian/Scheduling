@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     api_prefix: str = Field("/api", alias="API_PREFIX")
     frontend_origin: str = Field("http://localhost:5173", alias="FRONTEND_ORIGIN")
     log_level: str = Field("INFO", alias="LOG_LEVEL")
-
+    api_key: str | None = None 
 
 class Config:
     env_file = ".env"
