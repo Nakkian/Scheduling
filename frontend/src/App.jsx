@@ -16,10 +16,7 @@ function App() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch(`${API}/health`, {
-        // add credentials if you later use httpOnly cookies for auth:
-        // credentials: "include",
-      });
+      const res = await fetch(`${base}/api/health/ping`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setResult(data);
