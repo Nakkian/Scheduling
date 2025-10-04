@@ -13,7 +13,6 @@ class Employee(SQLModel, table=True):
     subsection: Optional[str] = None
     specific_job: Optional[str] = None
     active: bool = True
-    version: int = 0                      # optimistic concurrency
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
 class ApiKey(SQLModel, table=True):
