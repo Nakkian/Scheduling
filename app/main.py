@@ -4,8 +4,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .routers import health, upload, schedules, employees
+from .db import init_db
 
 app = FastAPI(title=settings.app_name)
+
+@app.on_event("startup")
+async def _startup():
+    await init_db()
 
 app.add_middleware(
     CORSMiddleware,
