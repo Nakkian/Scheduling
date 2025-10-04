@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
-from .routers import health, upload, schedules
+from .routers import health, upload, schedules, employees
 
 app = FastAPI(title=settings.app_name)
 
@@ -18,7 +18,7 @@ app.add_middleware(
 app.include_router(health.router, prefix=settings.api_prefix)
 app.include_router(upload.router, prefix=settings.api_prefix)
 app.include_router(schedules.router, prefix=settings.api_prefix)
-
+app.include_router(employee.router, prefix=setting.api_prefix)
 logging.basicConfig(level=getattr(logging, settings.log_level.upper(), logging.INFO))
 
 @app.get("/")
