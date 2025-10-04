@@ -10,10 +10,10 @@ async function pingApi() {
   setError(null);
   setResult(null);
   try {
-    const base = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');      // trim trailing slash
+    const base = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
     const prefix = (import.meta.env.VITE_API_PREFIX ?? '/api').replace(/\/+$/, '');
     const url = `${base}${prefix}/health/ping`;
-    console.log('Ping URL:', url); // <- check this in your browser console
+    console.log('Ping URL:', url);
 
     const res = await fetch(url, { method: 'GET' });
     if (!res.ok) {
@@ -22,8 +22,9 @@ async function pingApi() {
     }
     const data = await res.json();
     setResult(data);
-  } catch (e:any) {
-    setError(e?.message || String(e));
+  } catch (e) {                              
+    const msg = e instanceof Error ? e.message : String(e);
+    setError(msg);
   } finally {
     setLoading(false);
   }
