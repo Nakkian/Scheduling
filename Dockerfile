@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN python -m pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 COPY app ./app
