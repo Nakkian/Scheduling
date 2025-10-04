@@ -2,6 +2,13 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import UploadEmployees from "./UploadEmployees";
+import Employees from "./Employees";
+import AutoSchedule from "./AutoSchedule";
+// … inside your <App/> JSX:
+<UploadEmployees />
+<Employees />
+<AutoSchedule />
 
 function App() {
   const [count, setCount] = useState(0);
