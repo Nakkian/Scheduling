@@ -5,30 +5,29 @@ import "./App.css";
 
 const API = import.meta.env.VITE_API_URL; // read from .env
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+async function pingApi() {
+  setLoading(true);
+  setError(null);
+  setResult(null);
+  try {
+    const base = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');      // trim trailing slash
+    const prefix = (import.meta.env.VITE_API_PREFIX ?? '/api').replace(/\/+$/, '');
+    const url = `${base}${prefix}/health/ping`;
+    console.log('Ping URL:', url); // <- check this in your browser console
 
-  async function pingApi() {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    try {
-      const base = import.meta.env.VITE_API_URL;
-      const prefix = import.meta.env.VITE_API_PREFIX ?? '';
-      const url = `${base}${prefix}/health/ping`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      setResult(data);
-    } catch (e) {
-      setError(e.message || String(e));
-    } finally {
-      setLoading(false);
+    const res = await fetch(url, { method: 'GET' });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status} ${res.statusText} — ${text}`);
     }
+    const data = await res.json();
+    setResult(data);
+  } catch (e:any) {
+    setError(e?.message || String(e));
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <>
