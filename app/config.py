@@ -1,18 +1,15 @@
 from pydantic_settings import BaseSettings
-from pydantic import Field
-
 
 class Settings(BaseSettings):
-    app_name: str = Field("Scheduling API", alias="APP_NAME")
-    app_env: str = Field("dev", alias="APP_ENV")
-    api_prefix: str = Field("/api", alias="API_PREFIX")
-    frontend_origin: str = Field("http://localhost:5173", alias="FRONTEND_ORIGIN")
-    log_level: str = Field("INFO", alias="LOG_LEVEL")
-    api_key: str | None = None 
+    app_name: str = "Scheduling API"
+    api_prefix: str = "/api"
+    frontend_origin: str | None = None
+    log_level: str = "INFO"
+    api_key: str | None = None
+    # Local default writes to /app/data/app.db (works in Docker)
+    database_url: str = "sqlite+aiosqlite:///./data/app.db"
 
-class Config:
-    env_file = ".env"
-    case_sensitive = False
-
+    class Config:
+        env_file = ".env"
 
 settings = Settings()
