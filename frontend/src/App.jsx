@@ -16,7 +16,10 @@ function App() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch(`${base}/api/health/ping`);
+      const base = import.meta.env.VITE_API_URL;
+      const prefix = import.meta.env.VITE_API_PREFIX ?? '';
+      const url = `${base}${prefix}/health/ping`;
+      const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setResult(data);
