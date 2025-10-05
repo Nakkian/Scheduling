@@ -3,10 +3,11 @@ import io, pandas as pd
 from ..schemas.employee import EmployeeUpsertIn, EmployeeOut, SpecificJobUpdate, Dept
 from ..auth import require_api_key
 from ..services import employees_db as svc   # <-- switch to DB service
+from ..auth_gate import require_viewer, require_editor
 
 router = APIRouter(prefix="/employees", tags=["employees"])
 
-@router.get("/", response_model=list[EmployeeOut])
+@router.get("/", dependencies=[Depends(require_viewer)], response_model=list[EmployeeOut])
 async def list_all(
     dept: Dept | None = Query(None),
     job_code: str | None = Query(None),
@@ -14,7 +15,7 @@ async def list_all(
 ):
     return await svc.list_employees(dept=dept, job_code=job_code, sort=sort)
 
-@router.post("/import", dependencies=[Depends(require_api_key)])
+@router.post("/import", dependencies=[Depends(require_editor)])
 async def import_employees(
     file: UploadFile = File(...),
     header_row: int | None = Query(None, ge=1),
@@ -63,7 +64,7 @@ async def import_employees(
     result = await svc.upsert_employees(payloads)
     return {"result": result}
 
-@router.patch("/{emp_id}/specific-job", response_model=EmployeeOut, dependencies=[Depends(require_api_key)])
+@router.patch("/{emp_id}/specific-job", dependencies=[Depends(require_editor)], response_model=EmployeeOut)
 async def update_specific_job(emp_id: int, body: SpecificJobUpdate):
     try:
         return await svc.set_specific_job(emp_id, body.specific_job)
