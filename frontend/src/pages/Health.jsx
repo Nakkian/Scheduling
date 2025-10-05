@@ -1,4 +1,3 @@
-// src/pages/Health.jsx
 import { useState } from "react";
 import { API_BASE, API_PREFIX, apiUrl } from "../api";
 
@@ -14,12 +13,14 @@ export default function Health() {
     } catch (e) { setErr(String(e)); }
   }
   return (
-    <section className="stack">
-      <h2>Health</h2>
-      <p><b>API</b>: {API_BASE}{API_PREFIX}</p>
-      <button className="btn" onClick={ping}>Ping /health/ping</button>
-      {out && <pre>{JSON.stringify(out, null, 2)}</pre>}
-      {err && <p className="error">{err}</p>}
+    <section className="container section-glow">
+      <div className="glass card stack">
+        <h2>Health</h2>
+        <p className="small"><b>API:</b> {API_BASE}{API_PREFIX}</p>
+        <button className="btn" onClick={ping}>Ping /health/ping</button>
+        {out && <pre>{JSON.stringify(out, null, 2)}</pre>}
+        {err && <p className="error">{err}</p>}
+      </div>
     </section>
   );
 }
