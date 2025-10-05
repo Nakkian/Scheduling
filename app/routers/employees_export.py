@@ -19,5 +19,8 @@ async def export_employees_csv():
     for e in rows:
         w.writerow([e.id, e.name, e.job_code, e.dept or "", e.subsection or "", e.specific_job or "", e.active, e.updated_at.isoformat()])
     buf.seek(0)
-    return StreamingResponse(buf, media_type="text/csv",
-        headers={"Content-Disposition":"attachment; filename=employees_export.csv"})
+    return StreamingResponse(
+        buf,
+        media_type="text/csv",
+        headers={"Content-Disposition":"attachment; filename=employees_export.csv"}
+    )
