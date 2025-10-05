@@ -1,4 +1,3 @@
-// src/pages/Schedules.jsx
 import { useState } from "react";
 import { apiFetch } from "../api";
 
@@ -24,35 +23,42 @@ export default function Schedules() {
   }
 
   return (
-    <section className="stack">
-      <h2>Auto-Schedule</h2>
-      <div className="grid-2">
-        <label>Dept
-          <select value={dept} onChange={e=>setDept(e.target.value)}>
-            <option value="ABOVE">Above Wing</option>
-            <option value="BELOW">Below Wing</option>
-          </select>
-        </label>
-        <label>Job Code
-          <input value={job} onChange={e=>setJob(e.target.value)} placeholder="RD2AGT" />
-        </label>
-        <label>Start
-          <input type="datetime-local" value={start} onChange={e=>setStart(e.target.value)} />
-        </label>
-        <label>End
-          <input type="datetime-local" value={end} onChange={e=>setEnd(e.target.value)} />
-        </label>
-        <label>Count
-          <input type="number" min="1" value={count} onChange={e=>setCount(e.target.value)} />
-        </label>
+    <section className="container section-glow">
+      <div className="glass card stack">
+        <h2>Auto-Schedule</h2>
+        <div className="grid-3">
+          <label>Dept
+            <select value={dept} onChange={e=>setDept(e.target.value)}>
+              <option value="ABOVE">Above Wing</option>
+              <option value="BELOW">Below Wing</option>
+            </select>
+          </label>
+          <label>Job Code
+            <input value={job} onChange={e=>setJob(e.target.value)} placeholder="RD2AGT" />
+          </label>
+          <div></div>
+          <label>Start
+            <input type="datetime-local" value={start} onChange={e=>setStart(e.target.value)} />
+          </label>
+          <label>End
+            <input type="datetime-local" value={end} onChange={e=>setEnd(e.target.value)} />
+          </label>
+          <label>Count
+            <input type="number" min="1" value={count} onChange={e=>setCount(e.target.value)} />
+          </label>
+        </div>
+        <div className="row gap">
+          <button className="btn" onClick={run}>Generate</button>
+          {err && <span className="error">{err}</span>}
+        </div>
+        {result && (
+          <div className="glass card" style={{marginTop:12}}>
+            <pre style={{maxWidth:"100%", overflow:"auto", margin:0}}>
+              {JSON.stringify(result, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
-      <button className="btn" onClick={run}>Generate</button>
-      {err && <p className="error">{err}</p>}
-      {result && (
-        <pre style={{maxWidth: "100%", overflow: "auto"}}>
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
     </section>
   );
 }
