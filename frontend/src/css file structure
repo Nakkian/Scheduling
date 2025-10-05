@@ -1,0 +1,21 @@
+src/
+  api.ts                   # API helpers (base url, prefix, apiFetch)
+  main.jsx                 # React root
+  App.jsx                  # Router + shell layout
+  styles.css               # a few CSS variables & utilities
+
+  components/
+    Navbar.jsx
+    Footer.jsx
+    Card.jsx
+    Table.jsx
+    FileUpload.jsx
+    Toast.jsx
+
+  pages/
+    Landing.jsx
+    Health.jsx
+    Employees.jsx
+    Schedules.jsx
+    Admin.jsx
+    NotFound.jsx
