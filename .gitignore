@@ -7,4 +7,6 @@ __pycache__/
 .env.*
 .idea/
 .vscode/
-.pytest_cache/
+.pytest_cache/.env
+data/
+frontend/.env.local

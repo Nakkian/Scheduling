@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, UploadFile, File, Query, Depends, Request
+from fastapi import APIRouter, Depends, UploadFile, File, Query
 import io, pandas as pd
 from ..schemas.employee import EmployeeUpsertIn, EmployeeOut, SpecificJobUpdate, Dept
-from ..auth import require_api_key
 from ..services import employees_db as svc   # <-- switch to DB service
 from ..auth_gate import require_viewer, require_editor
 
