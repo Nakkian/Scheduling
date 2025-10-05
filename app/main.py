@@ -1,7 +1,6 @@
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from .config import settings
 from .routers import health, upload, schedules, employees, employees_export
 from .db import init_db
@@ -14,10 +13,10 @@ async def _startup():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in settings.frontend_origin.split(",") if o.strip()],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[settings.frontend_origin] if settings.frontend_origin else [],
+    allow_credentials=False,
+    allow_methods=["GET","POST","PATCH","OPTIONS"],
+    allow_headers=["Content-Type","Authorization","X-API-Key"],
 )
 
 app.include_router(health.router, prefix=settings.api_prefix)
