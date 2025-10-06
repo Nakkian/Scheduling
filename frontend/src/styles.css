@@ -1,124 +1,341 @@
-/* ==== base: font & reset ==== */
+/* ===================== Base / Theme ===================== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root{
-  /* palette: night + candle */
-  --bg:            #0a0c10;         /* night */
-  --bg-grad1:      #0a0c10;
-  --bg-grad2:      #0f1320;
-  --panel:         rgba(19, 23, 37, 0.35);  /* glass layer */
-  --panel-strong:  rgba(19, 23, 37, 0.55);
+  /* responsive page gutter you can tweak */
+  --page-gutter: clamp(14px, 4vw, 32px);
+  --card-gutter: 14px; /* extra inner padding for scroll areas/cards when needed */
+  /* Colors */
+  --bg:#0a0c10;            /* page gradient top */
+  --bg2:#0f1320;           /* page gradient bottom */
+  --text:#e9edf5;
+  --muted:#a9b2c5;
+  --danger:#ff7676;
+  --accent:#79a8ff;        /* cool focus/hover */
+  --candle:#ffd49a;        /* warm highlight */
+  --border:rgba(255,255,255,.08);
 
-  --text:          #e9edf5;
-  --muted:         #a9b2c5;
-  --border:        rgba(255,255,255,0.08);
+  /* Glass */
+  --panel:rgba(19,23,37,.35);
+  --panel-strong:rgba(19,23,37,.55);
+  --blur:18px;
 
-  --candle:        #ffce86;  /* warm candle glow */
-  --accent:        #6ea8fe;  /* cool night blue */
-  --accent-2:      #8be9c4;  /* soft teal for success */
-  --danger:        #ff7676;
+  /* Shadows / Radii */
+  --shadow:0 8px 30px rgba(0,0,0,.35);
+  --glow:0 0 40px rgba(255,212,154,.10), 0 0 18px rgba(121,168,255,.14);
+  --r:16px;
+  --r2:20px;
 
-  --radius:        16px;
-  --radius-lg:     20px;
-  --blur:          18px;     /* glass blur */
-  --shadow-1:      0 8px 30px rgba(0,0,0,.35);
-  --glow:          0 0 40px rgba(255, 206, 134, 0.12), 0 0 12px rgba(110, 168, 254, 0.18);
+  /* Layout */
+  --nav-h:60px;
+  --pad:24px;
+  --collapse:1000px;       /* breakpoint for nav collapse */
 }
 
-*{box-sizing:border-box}
-html,body,#root,.app-shell{height:100%}
+*{ box-sizing:border-box; }
+html,body,#root,.app-shell{ height:100%; }
+html{ scrollbar-gutter:stable both-edges; }
+html,body{ overflow-x:hidden; }
+
 body{
-  margin:0;
-  font-family: Inter, system-ui, Segoe UI, Roboto, Ubuntu, sans-serif;
-  color:var(--text);
+  margin:0; color:var(--text);
+  font:14px/1.5 Inter, system-ui, Segoe UI, Roboto, Ubuntu, sans-serif;
   background:
-    radial-gradient(600px 300px at 80% 0%, rgba(255, 206, 134, 0.06), transparent 60%),
-    radial-gradient(500px 250px at 10% 100%, rgba(110, 168, 254, 0.08), transparent 60%),
-    linear-gradient(180deg, var(--bg-grad1), var(--bg-grad2));
+    radial-gradient(560px 280px at 78% 2%, rgba(255,212,154,.07), transparent 62%),
+    radial-gradient(520px 260px at 12% 98%, rgba(121,168,255,.10), transparent 62%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
 }
 
-/* ==== layout ==== */
-.container{max-width:1100px;margin:0 auto;padding:24px}
-.app-shell{display:flex;flex-direction:column}
+/* ===================== Layout helpers ===================== */
+.app-shell{ display:flex; flex-direction:column; }
+.container{
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+  padding-block: var(--pad); /* your existing vertical padding var */
+}
+.container-fullscreen{ width:100%; min-height:calc(100vh - var(--nav-h)); padding:var(--pad); display:grid; place-items:center; }
+.centered-page{
+  width: min(1200px, calc(100% - var(--page-gutter) * 2));
+  margin-inline: auto;
+}
+.stack > * + *{ margin-top:14px; }
+.row{ display:flex; align-items:center; }
+.row.gap{ gap:12px; }
+.small{ font-size:12px; color:var(--muted); }
+.error{ color:var(--danger); }
 
-/* ==== glass panels & utilities ==== */
+/* ===================== Glass foundations ===================== */
 .glass{
-  background: var(--panel);
-  backdrop-filter: blur(var(--blur));
-  -webkit-backdrop-filter: blur(var(--blur));
+  background:var(--panel);
   border:1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-1), var(--glow);
+  border-radius:var(--r);
+  box-shadow:var(--shadow), var(--glow);
+  backdrop-filter:blur(var(--blur));
+  -webkit-backdrop-filter:blur(var(--blur));
 }
 .glass-strong{
-  background: var(--panel-strong);
-  backdrop-filter: blur(calc(var(--blur) + 4px));
-  -webkit-backdrop-filter: blur(calc(var(--blur) + 4px));
+  background:var(--panel-strong);
   border:1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1), var(--glow);
+  border-radius:var(--r2);
+  box-shadow:var(--shadow), var(--glow);
+  backdrop-filter:blur(calc(var(--blur) + 4px));
+  -webkit-backdrop-filter:blur(calc(var(--blur) + 4px));
 }
+.card{ padding:18px; }
+h1,h2,h3{ margin:0 0 6px; }
 
-.stack>*+*{margin-top:14px}
-.row{display:flex;align-items:center}
-.row.gap>*+*{margin-left:12px}
-.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-
-/* ==== nav / footer ==== */
-.nav{
-  position:sticky; top:0; z-index:20;
-  margin:12px auto 0; width: calc(100% - 24px);
-  border-radius: var(--radius-lg);
+/* ===================== Navbar (stable, sticky) ===================== */
+.glass.nav{
+  position:sticky; top:0; z-index:20; width:100%; margin:0; padding:0;
+  border-bottom:1px solid transparent;
+  display:flow-root;
 }
-.nav-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
-.brand{font-weight:700; letter-spacing:.2px}
-.brand .dot{color:var(--candle)}
+.nav-container{
+  width:100%; max-width:min(1400px,96vw);
+  margin:0 auto; height:var(--nav-h);
+  padding:0 24px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.brand{
+  display:inline-flex; align-items:center; height:36px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-weight:700; letter-spacing:.2px; min-width:160px;
+}
+.brand .dot{ color:var(--candle); margin-left:6px; }
 
+/* inline links (desktop) */
+.nav-tray{
+  display:flex; align-items:center; gap:8px;
+  flex:1 1 auto; justify-content:flex-end; min-width:0;
+  flex-wrap:nowrap; overflow:hidden; padding-right:16px; /* scrollbar guard */
+}
 .nav a{
-  color:var(--text); opacity:.85; padding:8px 10px; border-radius:10px; transition:all .2s ease;
+  display:inline-flex; align-items:center; justify-content:center;
+  height:36px; padding:0 12px; line-height:1;
+  border:1px solid transparent; border-radius:10px;
+  font-weight:500; color:var(--text); text-decoration:none; white-space:nowrap;
 }
-.nav a:hover{opacity:1; background:rgba(255,255,255,0.06)}
-.nav a.active{background:rgba(255,255,255,0.12); box-shadow: inset 0 0 0 1px var(--border)}
+.nav a:hover{ background:rgba(255,255,255,.06); }
+.nav a.active{ background:rgba(255,255,255,.12); border-color:var(--border); box-shadow:inset 0 0 0 1px var(--border); }
 
-.footer{margin-top:auto; padding:16px; text-align:center; opacity:.7}
-
-/* ==== cards/buttons/inputs ==== */
-.card{padding:18px}
-h1,h2,h3{margin:0 0 6px 0}
-h1{font-size:32px}
-h2{font-size:22px}
-
-.btn{
-  background: linear-gradient(180deg, rgba(110,168,254,0.9), rgba(110,168,254,0.75));
-  color:#07121f;
-  border:none; border-radius:12px; padding:10px 14px; cursor:pointer;
-  box-shadow: 0 4px 18px rgba(110,168,254,.25);
-  transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
+/* collapsed nav → Menu */
+.nav-menu-btn-wrap{ position:relative; flex:0 0 auto; display:none; }
+.nav-menu-btn{ white-space:nowrap; }
+.nav-menu-panel{
+  position:absolute; right:0; top:calc(100% + 8px);
+  padding:8px; border-radius:12px; min-width:200px; z-index:50;
 }
-.btn:hover{transform: translateY(-1px)}
-.btn:active{transform: translateY(0)}
-.btn.secondary{
-  background: linear-gradient(180deg, rgba(255,206,134,0.9), rgba(255,206,134,0.75));
-  color:#3c2a12; box-shadow: 0 4px 18px rgba(255,206,134,.22);
+.nav-menu-panel a{
+  display:block; padding:8px 10px; border-radius:8px; text-decoration:none; color:var(--text); white-space:nowrap;
 }
-.btn.ghost{
-  background: rgba(255,255,255,0.06); color: var(--text);
+.nav-menu-panel a:hover{ background:rgba(255,255,255,.06); }
+.nav-menu-panel a.active{ background:rgba(255,255,255,.12); box-shadow:inset 0 0 0 1px var(--border); }
+
+/* collapse at breakpoint */
+@media (max-width: 1000px){
+  .nav-tray{ display:none; }
+  .nav-menu-btn-wrap{ display:inline-flex; margin-right:18px; } /* keep away from scrollbar */
+}
+
+/* main body */
+.app-shell main{ flex:1 0 auto; min-height:calc(100vh - var(--nav-h)); }
+.app-shell main > *:first-child{ margin-top:0 !important; }
+
+/* ===================== Inputs & Selects (GLASS) ===================== */
+.glass-input,
+.glass-select,
+input.glass-input,
+select.glass-select,
+textarea.glass-input{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)),
+    var(--panel);
+  color:var(--text);
   border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  outline:none;
+  width:100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    0 6px 20px rgba(0,0,0,.25);
+  backdrop-filter:blur(var(--blur));
+  -webkit-backdrop-filter:blur(var(--blur));
+  transition: box-shadow .15s, border-color .15s, background .2s;
 }
+.glass-input:hover,.glass-select:hover{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05)),
+    var(--panel-strong);
+}
+.glass-input:focus,.glass-select:focus{
+  border-color:rgba(121,168,255,.45);
+  box-shadow:0 0 0 2px rgba(121,168,255,.22),
+             inset 0 1px 0 rgba(255,255,255,.08),
+             inset 0 -1px 0 rgba(0,0,0,.28);
+}
+label{ display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted); }
+select.glass-select{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  padding-right:40px; cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a9b2c5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat; background-position:right 12px center; background-size:14px;
+}
+select.glass-select option{ background-color:var(--bg2); color:var(--text); }
 
-input, select, textarea{
-  background: rgba(255,255,255,0.04);
-  color: var(--text);
+/* ===================== Buttons (GLASS everywhere) ===================== */
+button{ appearance:none; -webkit-appearance:none; background:transparent; color:inherit; border:none; padding:0; font:inherit; }
+
+.btn-glass{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:36px; padding:0 14px; border-radius:12px;
+  color:var(--text);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05)),
+    var(--panel);
   border:1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 12px;
-  outline: none;
-  width: 100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    0 6px 18px rgba(0,0,0,.25);
+  backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+  transition: box-shadow .2s, border-color .2s, background .2s, transform .08s;
 }
-input::placeholder{color: var(--muted)}
+.btn-glass:hover{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)),
+    var(--panel-strong);
+  transform: translateY(-1px);
+}
+.btn-glass:active{ transform: translateY(0); }
+.btn-pill{ border-radius:9999px; height:36px; padding:0 18px; }
+.btn-compact{ height:32px; padding:0 12px; border-radius:10px; }
+button[disabled].btn-glass{ opacity:.6; cursor:not-allowed; }
 
-label{display:flex; flex-direction:column; gap:6px; font-size:13px; color: var(--muted)}
+/* Emphasis variants (still glass) */
+.btn-warn{ border-color:rgba(255,212,154,.28); box-shadow:0 0 0 1px rgba(255,212,154,.18) inset; }
+.btn-ok{   border-color:rgba(121,255,200,.20); box-shadow:0 0 0 1px rgba(121,255,200,.14) inset; }
 
-hr{border:0; height:1px; background: var(--border); margin: 16px 0}
-.error{color:
+/* ===================== Chips / Badges ===================== */
+.chip-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 8px; border-radius:9999px; font-size:12px;
+  background:rgba(255,255,255,.06); border:1px solid var(--border);
+}
+
+/* ===================== Tables → cards on mobile ===================== */
+.table{ overflow:auto; border-radius:12px; border:1px solid var(--border); }
+.thead,.trow{
+  display:grid; grid-template-columns:80px 1.4fr 110px 140px 160px 1fr; /* ID | Name | Dept | Category | Time | Job */
+  padding:10px 12px; min-width:0;
+}
+.thead{ background:rgba(255,255,255,.05); color:var(--muted); font-weight:600; }
+.trow{ border-top:1px solid var(--border); background:rgba(255,255,255,.02); }
+.trow:hover{ background:rgba(255,255,255,.04); }
+.cell{ min-width:0; }
+.cell .cell-label{ display:none; }
+
+/* For schedules specifically: show only Name • Category • Time on phones */
+@media (max-width: 900px){
+  .schedules-table{ border:none; box-shadow:none; }
+  .schedules-table .thead{ display:none; }
+  .schedules-table .trow{
+    display:grid; grid-template-columns:1fr;
+    gap:6px; padding:10px 12px; margin-bottom:10px;
+    border:1px solid var(--border); border-radius:12px;
+    background:rgba(255,255,255,.03); min-width:0;
+  }
+  .schedules-table .col-id,
+  .schedules-table .col-dept,
+  .schedules-table .col-job{ display:none; }
+
+  .schedules-table .col-name,
+  .schedules-table .col-cat,
+  .schedules-table .col-time{ display:block; }
+
+  .schedules-table .cell .cell-label{
+    display:block; font-size:12px; color:var(--muted); margin-bottom:2px; line-height:1.1;
+  }
+  .schedules-table .cell span:last-child{
+    display:block; font-size:14px; line-height:1.3; word-break:break-word;
+  }
+}
+
+/* --- Horizontal scroll UX padding for the schedules table --- */
+.table{
+  overflow:auto;
+  border-radius:12px;
+  border:1px solid var(--border);
+  /* Add a stable gutter inside the scroller where supported */
+  scrollbar-gutter: auto;
+}
+
+/* On medium/smaller widths, pad the right so content never sits under the scrollbar */
+@media (max-width: 1200px){
+  .table{ padding-right: 18px; }
+  .thead, .trow{ padding-right: 14px; } /* keep header/body columns aligned */
+}
+
+/* Make scrollbars a bit slimmer (browser-dependent, safe no-ops elsewhere) */
+@supports (scrollbar-width: thin){
+  .table{ scrollbar-width: thin; }
+}
+.table::-webkit-scrollbar{ height: 10px; }
+.table::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.18);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.table::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius: 10px;
+}
+
+/* ===================== Health/Admin pages ===================== */
+.page-health, .page-admin{
+  min-height:calc(100vh - var(--nav-h));
+  display:grid; place-items:center; padding:var(--pad);
+}
+.page-health .glass, .page-admin .glass,
+.page-health .card,  .page-admin  .card,
+.page-health .row,   .page-admin   .row{ min-width:0; }
+
+/* ===================== Mobile polish ===================== */
+@media (max-width: 768px){
+  :root{ --nav-h:56px; --pad:16px; }
+  .nav-container{ padding:0 16px; }
+  .brand{ min-width:120px; }
+  .centered-page{ width:100%; }
+  .btn-pill, .btn-glass{ height:40px; }
+  .row{ flex-wrap:wrap; gap:10px; }
+  .glass-input, .glass-select{ padding:12px; }
+}
+@media (max-width: 480px){
+  :root{ --pad:12px; }
+  .nav-container{ padding:0 12px; }
+  .brand{ font-size:14px; min-width:110px; }
+  .nav-menu-btn{ padding:0 12px; }
+  .card{ padding:14px; }
+}
+
+/* ===================== Utilities ===================== */
+hr{ border:0; height:1px; background:var(--border); margin:16px 0; }
+.hidden{ display:none !important; }
+
+/* edge-safe padding for scrollables/cards near viewport edge */
+.edge-safe{
+  padding-right: max(var(--card-gutter), env(safe-area-inset-right, 0px));
+}
+
+/* specifically for tables: also pad header/rows so columns align */
+@media (max-width: 1280px){
+  .table.edge-safe{ padding-right: var(--card-gutter); }
+  .table.edge-safe .thead,
+  .table.edge-safe .trow{ padding-right: var(--card-gutter); }
+}
+
+/* keep a stable gutter where supported */
+.table{ scrollbar-gutter: stable both-edges; }

@@ -1,31 +1,30 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-import Landing from "./pages/Landing";
-import Health from "./pages/Health";
-import Employees from "./pages/Employees";
-import Schedules from "./pages/Schedules";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import "./styles.css";
+import Home from "./pages/Home";
+import Schedules from "./pages/Schedules";
+import Employees from "./pages/Employees";
+import Admin from "./pages/Admin";
+import Health from "./pages/Health";
+import NotFound from "./pages/NotFound";
 
-export default function App() {
+export default function App(){
   return (
-    <BrowserRouter>
-      <div className="app-shell">
+    <div className="app-shell">
+      <header className="glass nav">
         <Navbar />
-        <main className="container">
+      </header>
+      <main>
+        <div className="container">
           <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/health" element={<Health />} />
-            <Route path="/employees" element={<Employees />} />
-            <Route path="/schedules" element={<Schedules />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<Home/>} />
+            <Route path="/schedules" element={<Schedules/>} />
+            <Route path="/employees" element={<Employees/>} />
+            <Route path="/admin" element={<Admin/>} />
+            <Route path="/health" element={<Health/>} />
+            <Route path="*" element={<NotFound/>} />
           </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+        </div>
+      </main>
+    </div>
   );
 }

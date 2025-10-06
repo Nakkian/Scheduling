@@ -1,9 +1,14 @@
-// src/pages/Admin.jsx
-export default function Admin() {
+export default function Admin(){
   return (
-    <section className="stack">
-      <h2>Admin Tools</h2>
-      <p>Keep this simple for now (imports live under Employees). Add backups, DB tools, or audit logs here later.</p>
+    <section className="container-fullscreen">
+      <div className="centered-page glass card stack">
+        <h2>Admin</h2>
+        <p className="small">Protected actions will go here.</p>
+        <div className="row gap">
+          <button className="btn-glass btn-pill">Import Employees</button>
+          <button className="btn-glass btn-pill btn-warn">Purge Test Data</button>
+        </div>
+      </div>
     </section>
   );
 }
