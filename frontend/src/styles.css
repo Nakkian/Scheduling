@@ -2,34 +2,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root{
-  /* responsive page gutter you can tweak */
+  /* responsive page Elements */
   --page-gutter: clamp(14px, 4vw, 32px);
   --card-gutter: 14px; /* extra inner padding for scroll areas/cards when needed */
-  /* Colors */
-  --bg:#0a0c10;            /* page gradient top */
-  --bg2:#0f1320;           /* page gradient bottom */
+  /* Colors Pallette*/
+  --bg:#0a0c10;            /* page top */
+  --bg2:#0f1320;           /* page bottom */
   --text:#e9edf5;
   --muted:#a9b2c5;
   --danger:#ff7676;
-  --accent:#79a8ff;        /* cool focus/hover */
-  --candle:#ffd49a;        /* warm highlight */
+  --accent:#79a8ff;        /* color focus/hover */
+  --candle:#ffd49a;        /* accent lights */
   --border:rgba(255,255,255,.08);
 
-  /* Glass */
+  /* Glass Effects */
   --panel:rgba(19,23,37,.35);
   --panel-strong:rgba(19,23,37,.55);
   --blur:18px;
 
-  /* Shadows / Radii */
+  /* Shadows */
   --shadow:0 8px 30px rgba(0,0,0,.35);
   --glow:0 0 40px rgba(255,212,154,.10), 0 0 18px rgba(121,168,255,.14);
   --r:16px;
   --r2:20px;
 
-  /* Layout */
+  /* Layout Design */
   --nav-h:60px;
   --pad:24px;
-  --collapse:1000px;       /* breakpoint for nav collapse */
+  --collapse:1000px; /* collapse point*/
 }
 
 *{ box-sizing:border-box; }
@@ -217,6 +217,10 @@ button[disabled].btn-glass{ opacity:.6; cursor:not-allowed; }
 .btn-warn{ border-color:rgba(255,212,154,.28); box-shadow:0 0 0 1px rgba(255,212,154,.18) inset; }
 .btn-ok{   border-color:rgba(121,255,200,.20); box-shadow:0 0 0 1px rgba(121,255,200,.14) inset; }
 
+.btn-ok:hover{background-color: rgb(34, 136, 102); }
+.btn-ok:active{background-color: #0f1320;}
+.btn-warn:hover{background-color: #911414;}
+.btn-warn:active{background-color: #0f1320;}
 /* ===================== Chips / Badges ===================== */
 .chip-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
 .badge{
@@ -263,22 +267,22 @@ button[disabled].btn-glass{ opacity:.6; cursor:not-allowed; }
   }
 }
 
-/* --- Horizontal scroll UX padding for the schedules table --- */
+/* Horizontal scroll UX padding for the schedules table */
 .table{
   overflow:auto;
   border-radius:12px;
   border:1px solid var(--border);
-  /* Add a stable gutter inside the scroller where supported */
+  /* stable gutter inside the scroller */
   scrollbar-gutter: auto;
 }
 
-/* On medium/smaller widths, pad the right so content never sits under the scrollbar */
+/* On smaller widths, pad content so it never sits under the scrollbar */
 @media (max-width: 1200px){
   .table{ padding-right: 18px; }
-  .thead, .trow{ padding-right: 14px; } /* keep header/body columns aligned */
+  .thead, .trow{ padding-right: 14px; } /* header/body columns aligned */
 }
 
-/* Make scrollbars a bit slimmer (browser-dependent, safe no-ops elsewhere) */
+/* Make scrollbars a bit slimmer (browser-dependent) */
 @supports (scrollbar-width: thin){
   .table{ scrollbar-width: thin; }
 }

@@ -31,7 +31,7 @@ export default function Schedules(){
       <div className="centered-page glass card stack">
         <div className="chip-row" role="tablist" aria-label="Schedules Tabs">
           <button className={`btn-glass btn-pill ${tab==="view"?"is-active":""}`} onClick={()=>setTab("view")}>View</button>
-          <button className={`btn-glass btn-pill ${tab==="auto"?"is-active":""}`} onClick={()=>setTab("auto")}>Auto-generate</button>
+          <button className={`btn-glass btn-pill btn-ok ${tab==="auto"?"is-active":""}`} onClick={()=>setTab("auto")}>Auto-generate</button>
         </div>
         {tab==="view" ? <ViewTab/> : <AutoTab/>}
       </div>

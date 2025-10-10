@@ -41,9 +41,7 @@ async def require_scheduler(
     x_api_key: Optional[str] = Header(default=None),
     authorization: Optional[str] = Header(default=None),
 ):
-    """
-    Use on auto-schedule endpoint.
-    """
+    #Todo use on API endpoints
     if settings.auth_mode == "none":
         return
     if settings.auth_mode == "apikey":

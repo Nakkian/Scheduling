@@ -27,7 +27,7 @@ export default function Health(){
         <h2>Health Check</h2>
         <p className="small">Verify frontend ↔ API connectivity.</p>
         <div className="row gap">
-          <button className="btn-glass btn-pill" onClick={ping} disabled={loading}>
+          <button className="btn-glass btn-pill btn-ok" onClick={ping} disabled={loading}>
             {loading ? "Pinging…" : "Ping /health/ping"}
           </button>
         </div>
